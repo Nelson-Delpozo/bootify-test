@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{toDoItem.list.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 th:text="#{toDoItem.list.headline}" class="flex-grow-1" />
+                <div>
+                    <a th:href="@{/toDoItems/add}" th:text="#{toDoItem.list.createNew}" class="btn btn-primary ms-2" />
+                </div>
+            </div>
+            <div th:if="${toDoItems.empty}" th:text="#{toDoItem.list.empty}" />
+            <div th:if="${!toDoItems.empty}" class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th th:text="#{toDoItem.id.label}" scope="col" />
+                            <th th:text="#{toDoItem.name.label}" scope="col" />
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="toDoItem : ${toDoItems}">
+                            <td th:text="${toDoItem.id}" />
+                            <td th:text="${toDoItem.name}" />
+                            <td>
+                                <form th:action="@{/toDoItems/delete/{id}(id=${toDoItem.id})}" th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm float-end">
+                                    <a th:href="@{/toDoItems/edit/{id}(id=${toDoItem.id})}" th:text="#{toDoItem.list.edit}" class="btn btn-sm btn-info" />
+                                    <button th:text="#{toDoItem.list.delete}" type="submit" class="btn btn-sm btn-danger" />
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
